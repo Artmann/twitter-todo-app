@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  each item in items
+    div(class='bg-white rounded w-full shadow my-8 py-2 pr-4 flex items-center')
+      div(class='bg-green h-8 w-1 mr-4 rounded')
+      input(type='checkbox', class='block mr-4', checked=item.completed)
+      p(class='truncate flex-1 text-sm')= item.text
+
+  div(class='bg-pink rounded-full flex justify-center items-center w-16 h-16 fixed pin-r pin-b m-4', id='add-button')
+    div(class='block text-white text-4xl') +
+
+  div(class='fixed pin pt-8 z-10 invisible' style='background: rgba(184, 194, 204, .7)', id='overlay')
+    div(class='w-3/4 bg-white rounded shadow p-8 mt-8 mx-auto z-20', id='modal')
+      h2(class='text-xl pb-2 mb-4 border-b') Add new item
+      form(method='post' action='/todos', id='form')
+        label(class='font-bold mb-2 block') Text
+        textarea(name='text', class='border-2 border-grey rounded h-16 w-full mb-8 text-grey-dark', placeholder='Add more jQuery...', required='true')
+        div(class='flex justify-end')
+          input(type='submit', value='Save', class='bg-transparent text-lg text-green-dark border border-green-dark rounded py-2 px-8')
+
+  script(src='/javascripts/todolist.js')
