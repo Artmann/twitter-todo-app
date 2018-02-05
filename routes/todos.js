@@ -1,5 +1,5 @@
 var express = require('express')
-var Twitter = require('twitter');
+var EventStore = require('../lib/event_store');
 var UUIDv1 = require('uuid/v1');
 
 var router = express.Router();
@@ -16,14 +16,7 @@ router.post('/todos', function(req, res, next) {
     text: text,
   });
 
-  var client = new Twitter({
-    consumer_key: process.env.TWITTER_CONSUMER_KEY,
-    consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
-    access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY,
-    access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
-  });
-
-  client.post('statuses/update', {status: payload}).then(function() {
+  new EventStore().createEvent(payload).then(function() {
     res.redirect('/');
   }).catch(function(error) {
     console.log(error);
